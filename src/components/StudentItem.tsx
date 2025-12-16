@@ -26,9 +26,17 @@ const StudentItem: React.FC<StudentItemProps> = ({ student }) => {
   const onDelete = () => {
     deleteStudent();
   };
+
+  const onEdit = () => {
+    setIsEditing(true);
+  };
+
+  const notEdit = () => {
+    setIsEditing(false);
+  };
   return (
     <>
-      {isEditing && <StudentForm student={student} />}
+      {isEditing && <StudentForm student={student} notEdit={notEdit} />}
       {!isEditing && (
         <>
           {!isLoading && !error && (
@@ -38,7 +46,7 @@ const StudentItem: React.FC<StudentItemProps> = ({ student }) => {
               <td>{student.age}</td>
               <td>{student.address}</td>
               <td>
-                <button>edit</button>
+                <button onClick={onEdit}>edit</button>
                 <button onClick={onDelete}>delete</button>
               </td>
             </tr>

@@ -5,9 +5,10 @@ import { StudentContext } from '../store/studentContext';
 
 interface StudentFormProps {
   student?: Student;
+  notEdit?: () => void;
 }
 
-const StudentForm: React.FC<StudentFormProps> = ({ student }) => {
+const StudentForm: React.FC<StudentFormProps> = ({ student, notEdit }) => {
   const [newStudent, setNewStudent] = useState<Omit<Student, '_id'>>({
     name: student?.name || '',
     gender: student?.gender || 'male',
