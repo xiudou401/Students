@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { HTTP_METHODS, Student } from '../types/student';
 import StudentForm from './StudentForm';
 import { useFetch } from '../hooks/useFetch';
+import { StudentContext } from '../store/studentContext';
 
 interface StudentItemProps {
   student: Student;
 }
 
 const StudentItem: React.FC<StudentItemProps> = ({ student }) => {
+  const { fetchStudents } = useContext(StudentContext);
   const {
-    data,
     error,
     isLoading,
-    fetchData: deleteStudents,
-  } = useFetch({
-    url: `students/${student._id}`,
-    method: HTTP_METHODS.DELETE,
-  });
+    fetchData: deleteStudent,
+  } = useFetch<void, void>(
+    {
+      url: `students/${student._id}`,
+      method: HTTP_METHODS.DELETE,
+    },
+    fetchStudents
+  );
   const [isEditing, setIsEditing] = useState(false);
+
+  const onDelete = () => {
+    deleteStudent();
+  };
   return (
     <>
-      {isEditing && <StudentForm />}
+      {isEditing && <StudentForm student={student} />}
       {!isEditing && (
         <>
           {!isLoading && !error && (
@@ -31,7 +39,7 @@ const StudentItem: React.FC<StudentItemProps> = ({ student }) => {
               <td>{student.address}</td>
               <td>
                 <button>edit</button>
-                <button>delete</button>
+                <button onClick={onDelete}>delete</button>
               </td>
             </tr>
           )}
