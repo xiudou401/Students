@@ -1,7 +1,7 @@
 import React from 'react';
 
 const StudentForm = () => {
-  return <div></div>;
+  return <div>form</div>;
 };
 
 export default StudentForm;
